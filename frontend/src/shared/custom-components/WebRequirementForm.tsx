@@ -353,7 +353,7 @@ const WebRequirementForm = ({
           disabled={costMutation.isPending}
         >
           {costMutation.isPending
-            ? "Cost Calculate can take upto 30 sec..."
+            ? "Cost Calculate can take upto 15-20 sec..."
             : "Calculate"}
         </button>
       </div>
