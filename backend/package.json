@@ -1,0 +1,51 @@
+{
+  "name": "backend",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/main.ts",
+    "build": "npm i && npx prisma generate && tsc && tsc-esm-fix",
+    "start": "node dist/main.js",
+    "docs": "tsx src/swagger.ts",
+    "script": "tsx src/custom-script.ts"
+  },
+  "author": "Mohd Shahalam",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.14.0",
+    "bcryptjs": "^3.0.2",
+    "build": "^0.1.4",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "ioredis": "^5.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.6",
+    "npm": "^11.6.0",
+    "prisma": "^6.14.0",
+    "run": "^1.5.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.3.0",
+    "@types/nodemailer": "^7.0.1",
+    "@types/swagger-ui-express": "^4.1.8",
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10",
+    "tsc-alias": "^1.8.16",
+    "tsc-esm-fix": "^3.1.2",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2"
+  }
+}

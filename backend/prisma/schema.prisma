@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum genderType {
+  male
+  female
+}
+
+enum phaseType {
+  requirement_analysis
+  design_phase
+  development_phase
+  testing_phase
+  deployment_phase
+  maintenance_phase
+}
+
+enum CategoryType {
+  e_commerce
+  educational
+  healthcare
+  business
+  portfolio
+  blog
+  other
+}
+
+enum statusType {
+  completed
+  in_progress
+  pending
+}
+
+model User {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String     @unique
+  password String
+  image    Image?
+  profile  Profile?
+  projects Project[]
+  feedback Feedback[]
+}
+
+model Profile {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  company_name  String
+  gender        genderType @default(male)
+  date_of_birth DateTime?
+  position      String?
+  phone_number  String?
+  address       String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String     @unique @db.ObjectId
+}
+
+model Image {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  url    String
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String? @unique @db.ObjectId
+}
+
+model Project {
+  id                   String        @id @default(auto()) @map("_id") @db.ObjectId
+  title                String?
+  no_of_page           Float
+  ui_consideration     Boolean
+  category             CategoryType  @default(other)
+  technologies         Technologies?
+  total_cost           Float
+  detail_cost          DetailCost?
+  total_time           Float
+  progress             Int?          @default(0)
+  current_phase        phaseType     @default(requirement_analysis)
+  live_url             String?
+  milestones           Milestones[]
+  next_deadline        DateTime      @default(now())
+  estimated_completion DateTime
+  feedback             Feedback?
+  owner                User?         @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  ownerId              String?       @db.ObjectId
+}
+
+model DetailCost {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  baseCost      Json
+  designPremium Json
+  stack         Json[]
+  database      Json
+  integrations  Json[]
+  deployment    Json
+  project       Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId     String  @unique @db.ObjectId
+}
+
+model Technologies {
+  id                      String   @id @default(auto()) @map("_id") @db.ObjectId
+  frontend                String
+  backend                 String
+  database                String
+  third_party_integration String[]
+  deployment              String
+  project                 Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId               String   @unique @db.ObjectId
+}
+
+model Milestones {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  percentage  Float
+  amount      Float
+  is_paid     Boolean    @default(false)
+  due_date    DateTime
+  status      statusType @default(pending)
+  project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String     @db.ObjectId
+}
+
+model Feedback {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating      Int
+  description String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @db.ObjectId
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String   @unique @db.ObjectId
+}
