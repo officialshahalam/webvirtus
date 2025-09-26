@@ -75,7 +75,6 @@
 - **Payments:** Stripe
 - **Real-Time Chat:** WebSocket with redis for real time acknowledgement
 
-
 ### **Deployment:**
 
 - **Frontend**: Vercel
@@ -85,6 +84,7 @@
 ## 📞 Contact
 
 **Shahalam** - Full Stack Developer  
+👤 Portfiloi: [shahalam-portfolio.vercel.app](https://shahalam-portfolio.vercel.app)  
 📧 Email: officialshahalam855@gmail.com
 💼 LinkedIn: [linkedin.com/in/yourprofile](https://www.linkedin.com/in/mohdshahalam855/)  
 🐙 GitHub: [github.com/yourusername](https://github.com/officialshahalam)
