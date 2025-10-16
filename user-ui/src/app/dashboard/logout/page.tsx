@@ -18,7 +18,7 @@ export default function LogoutPage() {
     const logoutHandler = async () => {
       await axiosInstance.post("/auth/logout-user");
       clearUser();
-      clearProject(); 
+      clearProject();
       clearDummyProject();
       clearRequirement();
       window.location.reload();
@@ -30,7 +30,7 @@ export default function LogoutPage() {
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, []);
 
   return (
     <div className="flex flex-1 min-h-screen items-center justify-center bg-blue-500">

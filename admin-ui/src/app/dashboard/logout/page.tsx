@@ -21,7 +21,7 @@ export default function LogoutPage() {
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, []);
 
   return (
     <div className="flex flex-1 min-h-screen items-center justify-center bg-blue-500">

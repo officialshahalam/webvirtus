@@ -5,7 +5,9 @@
     "description": "Automatically generated Swagger docs",
     "version": "1.0.0"
   },
+
   "host": "api.webvirtus.it.com",
+  "schemes": ["https"],
   "basePath": "/",
   "tags": [
     {
@@ -29,7 +31,6 @@
       "description": "Cost management endpoints"
     }
   ],
-  "schemes": ["https"],
   "paths": {
     "/auth/registration-user": {
       "post": {
