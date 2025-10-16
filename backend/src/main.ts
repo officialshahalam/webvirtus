@@ -27,7 +27,6 @@ app.use(
       "https://admin.webvirtus.it.com",
       "https://www.admin.webvirtus.it.com",
       "https://api.webvirtus.it.com",
-      "https://webvirtus.onrender.com",
     ],
     allowedHeaders: ["Authorization", "Content-Type"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
