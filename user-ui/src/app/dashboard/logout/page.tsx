@@ -26,7 +26,11 @@ export default function LogoutPage() {
       clearProject();
       clearDummyProject();
       clearRequirement();
+
       router.replace("/login");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000); // small delay to ensure route finishes
     },
     onError: (error: AxiosError) => {
       console.log("error", error);
