@@ -23,9 +23,13 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://webvirtus.it.com",
-      "https://api.webvirtus.it.com"
+      "https://www.webvirtus.it.com",
+      "https://admin.webvirtus.it.com",
+      "https://www.admin.webvirtus.it.com",
+      "https://api.webvirtus.it.com",
     ],
     allowedHeaders: ["Authorization", "Content-Type"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
