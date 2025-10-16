@@ -12,7 +12,7 @@ const BookNow = () => {
       <div className="w-11/12 mx-auto bg-blue-500 flex flex-col items-center border rounded-2xl md:rounded-3xl gap-0 md:gap-[10px] relative overflow-hidden">
         {/* Upper decorative image */}
         <Image
-          src={"icons/upper.svg"}
+          src={"/icons/upper.svg"}
           height={300}
           width={1680}
           className="object-cover w-full h-auto"
@@ -21,7 +21,7 @@ const BookNow = () => {
 
         {/* Middle decorative image */}
         <Image
-          src={"icons/middle.svg"}
+          src={"/icons/middle.svg"}
           height={200}
           width={280}
           className="object-cover w-16 md:w-32 lg:w-[250px] h-auto"
@@ -30,7 +30,7 @@ const BookNow = () => {
 
         {/* Lower decorative image */}
         <Image
-          src={"icons/lower.svg"}
+          src={"/icons/lower.svg"}
           height={300}
           width={1680}
           className="object-cover w-full h-auto"
