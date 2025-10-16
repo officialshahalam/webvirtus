@@ -9,7 +9,6 @@ import {
   LayoutDashboard,
   DollarSign,
   MessageCircle,
-  LogOut,
   Calculator,
   Briefcase,
 } from "lucide-react";
