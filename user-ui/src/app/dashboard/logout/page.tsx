@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import { useUserStore } from "@/stores/userStore";
 import { useProjectStore } from "@/stores/projectStore";
@@ -9,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 export default function LogoutPage() {
+  const router = useRouter();
   const { clearUser } = useUserStore();
   const { clearProject } = useProjectStore();
   const { clearRequirement } = useRequirementStore();
@@ -24,7 +26,7 @@ export default function LogoutPage() {
       clearProject();
       clearDummyProject();
       clearRequirement();
-      window.location.reload();
+      router.replace("/login");
     },
     onError: (error: AxiosError) => {
       console.log("error", error);
