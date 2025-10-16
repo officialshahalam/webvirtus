@@ -1,25 +1,29 @@
 "use client";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import { useUserStore } from "@/stores/userStore";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export default function LogoutPage() {
-  const router = useRouter();
   const { clearUser } = useUserStore();
 
-  useEffect(() => {
-    const logoutHandler = async () => {
-      await axiosInstance.post("/auth/logout-user");
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post("/auth/logout-user");
+      return response.data;
+    },
+    onSuccess: () => {
       clearUser();
-    };
+      window.location.reload();
+    },
+    onError: (error: AxiosError) => {
+      console.log("error", error);
+    },
+  });
 
-    logoutHandler();
-    const timer = setTimeout(() => {
-      router.replace("/login");
-    }, 1500);
-
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    logoutMutation.mutate();
   }, []);
 
   return (
