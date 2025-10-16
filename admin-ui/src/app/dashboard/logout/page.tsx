@@ -1,9 +1,11 @@
 "use client";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import { useUserStore } from "@/stores/userStore";
 
 export default function LogoutPage() {
+  const router = useRouter();
   const { clearUser } = useUserStore();
 
   useEffect(() => {
@@ -14,7 +16,7 @@ export default function LogoutPage() {
 
     logoutHandler();
     const timer = setTimeout(() => {
-      window.location.reload();
+      router.replace("/login");
     }, 1500);
 
     return () => clearTimeout(timer);
