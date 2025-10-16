@@ -1,16 +1,21 @@
-
+"use client";
 import DashboardHeader from "@/components/custom/DashboardHeader";
+import { useUserStore } from "@/stores/userStore";
+import axiosInstance from "@/utils/axiosInstance";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import {
   Bell,
   Building,
   Edit3,
+  LogOut,
   Mail,
   MapPin,
   Phone,
   Settings,
   User,
 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
 const Page = () => {
   const clientProfile = {
@@ -22,6 +27,33 @@ const Page = () => {
     joinedDate: "November 1, 2024",
     projectsCompleted: 0,
     totalSpent: "$1,700",
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const { clearUser } = useUserStore();
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post("/auth/logout-user");
+      return response.data;
+    },
+    onSuccess: () => {
+      clearUser();
+      window.location.reload();
+    },
+    onError: (error: AxiosError) => {
+      console.error("Logout error:", error);
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
   };
 
   return (
@@ -214,6 +246,43 @@ const Page = () => {
             </div>
           </div>
         </div>
+        <button
+          className="flex items-center gap-2 px-5 py-2 rounded-lg bg-red-500 hover:bg-red-400 transition-colors"
+          onClick={() => setOpen(true)}
+        >
+          <LogOut size={18} />
+          <span>Logout</span>
+        </button>
+
+        {open && (
+          <div
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+            onClick={() => setOpen(false)}
+          >
+            <div className="bg-gray-800 rounded-2xl shadow-2xl p-8 w-[90%] max-w-md">
+              <h2 className="text-2xl font-semibold mb-2">Confirm Logout</h2>
+              <p className="text-gray-400 mb-6">
+                Are you sure you want to log out from your account?
+              </p>
+
+              <div className="flex justify-between gap-4">
+                <button
+                  onClick={handleCancel}
+                  className="px-5 py-2 rounded-lg bg-gray-600 hover:bg-gray-500 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="px-5 py-2 rounded-lg bg-red-600 hover:bg-red-500 transition-colors"
+                  disabled={logoutMutation.isPending}
+                >
+                  {logoutMutation.isPending ? "Logging out..." : "Yes, Logout"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

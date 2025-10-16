@@ -11,6 +11,7 @@ import {
   MessageCircle,
   LogOut,
   Calculator,
+  Briefcase,
 } from "lucide-react";
 import NextjsIcon from "../../public/icons/webIcons/NextjsIcon";
 import ReactIcon from "../../public/icons/webIcons/ReactIcon";
@@ -411,6 +412,11 @@ export const sidebarItems: { Icon: LucideIcon; title: string; href: string }[] =
       href: "/dashboard",
     },
     {
+      Icon: Briefcase,
+      title: "Projects",
+      href: "/dashboard/projects",
+    },
+    {
       Icon: DollarSign,
       title: "Milestones & Payments",
       href: "/dashboard/milestones-payment",
@@ -424,10 +430,5 @@ export const sidebarItems: { Icon: LucideIcon; title: string; href: string }[] =
       Icon: MessageCircle,
       title: "Team Chat",
       href: "/dashboard/chatting",
-    },
-    {
-      Icon: LogOut,
-      title: "Logout",
-      href: "/dashboard/logout",
     },
   ];

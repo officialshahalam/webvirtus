@@ -3,7 +3,6 @@ import {
   DollarSign,
   FileSpreadsheet,
   LayoutDashboard,
-  LogOut,
   LucideIcon,
   MessageCircle,
   Users,
@@ -13,7 +12,7 @@ export const sidebarItems: { Icon: LucideIcon; title: string; href: string }[] =
   [
     {
       Icon: LayoutDashboard,
-      title: "Dashboard Overview",
+      title: "Dashboard",
       href: "/dashboard",
     },
     {
@@ -40,10 +39,5 @@ export const sidebarItems: { Icon: LucideIcon; title: string; href: string }[] =
       Icon: MessageCircle,
       title: "Team Chat",
       href: "/dashboard/chattings",
-    },
-    {
-      Icon: LogOut,
-      title: "Logout",
-      href: "/dashboard/logout",
     },
   ];
