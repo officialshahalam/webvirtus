@@ -1,23 +1,20 @@
 "use client";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import { useUserStore } from "@/stores/userStore";
 
 export default function LogoutPage() {
-  const router = useRouter();
   const { clearUser } = useUserStore();
 
   useEffect(() => {
     const logoutHandler = async () => {
       await axiosInstance.post("/auth/logout-user");
       clearUser();
-      window.location.reload();
     };
 
     logoutHandler();
     const timer = setTimeout(() => {
-      router.replace("/login");
+      window.location.reload();
     }, 1500);
 
     return () => clearTimeout(timer);

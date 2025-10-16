@@ -8,7 +8,6 @@ import { useRequirementStore } from "@/stores/useRequirementStore";
 import { usedummyProjectStore } from "@/stores/dummyProjectStore";
 
 export default function LogoutPage() {
-  const router = useRouter();
   const { clearUser } = useUserStore();
   const { clearProject } = useProjectStore();
   const { clearRequirement } = useRequirementStore();
@@ -21,12 +20,11 @@ export default function LogoutPage() {
       clearProject();
       clearDummyProject();
       clearRequirement();
-      window.location.reload();
     };
 
     logoutHandler();
     const timer = setTimeout(() => {
-      router.replace("/login");
+      window.location.reload();
     }, 1500);
 
     return () => clearTimeout(timer);
