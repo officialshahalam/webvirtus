@@ -1,18 +1,39 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Auth Service Api",
-    "description": "Automatically generate swagger docs",
+    "title": "WebVirtus API",
+    "description": "Automatically generated Swagger docs",
     "version": "1.0.0"
   },
   "host": "localhost:4000",
-  "basePath": "/api",
-  "schemes": [
-    "https"
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Authentication related endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "User management endpoints"
+    },
+    {
+      "name": "Projects",
+      "description": "Project management endpoints"
+    },
+    {
+      "name": "Milestones",
+      "description": "Milestone management endpoints"
+    },
+    {
+      "name": "Cost",
+      "description": "Cost management endpoints"
+    }
   ],
+  "schemes": ["http"],
   "paths": {
-    "/registration-user": {
+    "/auth/registration-user": {
       "post": {
+        "tags": ["Authentication"],
         "description": "",
         "parameters": [
           {
@@ -22,10 +43,10 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "Mohd Shahalam"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "ansarishahalam855@gmail.com"
                 }
               }
             }
@@ -38,8 +59,9 @@
         }
       }
     },
-    "/verify-user": {
+    "/auth/verify-user": {
       "post": {
+        "tags": ["Authentication"],
         "description": "",
         "parameters": [
           {
@@ -49,16 +71,16 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "Mohd Shahalam"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "ansarishahalam855@gmail.com"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "......"
                 },
                 "otp": {
-                  "example": "any"
+                  "example": "1234"
                 }
               }
             }
@@ -71,8 +93,9 @@
         }
       }
     },
-    "/login-user": {
+    "/auth/login-user": {
       "post": {
+        "tags": ["Authentication"],
         "description": "",
         "parameters": [
           {
@@ -82,10 +105,10 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "ansarishahalam855@gmail.com"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "......"
                 }
               }
             }
@@ -98,8 +121,9 @@
         }
       }
     },
-    "/logged-in-user": {
+    "/auth/logged-in-user": {
       "get": {
+        "tags": ["Authentication"],
         "description": "",
         "responses": {
           "201": {
@@ -108,8 +132,9 @@
         }
       }
     },
-    "/logout-user": {
+    "/auth/logout-user": {
       "post": {
+        "tags": ["Authentication"],
         "description": "",
         "responses": {
           "200": {
@@ -118,8 +143,9 @@
         }
       }
     },
-    "/forgot-password-user": {
+    "/auth/forgot-password-user": {
       "post": {
+        "tags": ["Authentication"],
         "description": "",
         "parameters": [
           {
@@ -129,7 +155,7 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "ansarishahalam855@gmail.com"
                 }
               }
             }
@@ -142,8 +168,9 @@
         }
       }
     },
-    "/verify-forgot-password-user": {
+    "/auth/verify-forgot-password-user": {
       "post": {
+        "tags": ["Authentication"],
         "description": "",
         "parameters": [
           {
@@ -153,10 +180,10 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "ansarishahalam855@gmail.com"
                 },
                 "otp": {
-                  "example": "any"
+                  "example": "1234"
                 }
               }
             }
@@ -169,8 +196,9 @@
         }
       }
     },
-    "/reset-password-user": {
+    "/auth/reset-password-user": {
       "post": {
+        "tags": ["Authentication"],
         "description": "",
         "parameters": [
           {
@@ -180,10 +208,10 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "ansarishahalam855@gmail.com"
                 },
                 "newPassword": {
-                  "example": "any"
+                  "example": "abcdef"
                 }
               }
             }
@@ -196,8 +224,37 @@
         }
       }
     },
-    "/pricing": {
+    "/auth/change-password-user": {
+      "post": {
+        "tags": ["Authentication"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "oldPassword": {
+                  "example": "abcdef"
+                },
+                "newPassword": {
+                  "example": "......"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user": {
       "get": {
+        "tags": ["Users"],
         "description": "",
         "responses": {
           "200": {
@@ -206,13 +263,32 @@
         }
       }
     },
-    "/calculate-cost": {
-      "post": {
+    "/user/{id}": {
+      "get": {
+        "tags": ["Users"],
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Users"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
             "type": "string"
           },
           {
@@ -221,32 +297,31 @@
             "schema": {
               "type": "object",
               "properties": {
-                "title": {
+                "name": {
+                  "example": "Mohd Shahalam"
+                },
+                "email": {
+                  "example": "ansarishahalam855@gmail.com"
+                },
+                "image": {
+                  "example": {
+                    "url": "imageUrl"
+                  }
+                },
+                "company_name": {
+                  "example": "webVirtus"
+                },
+                "gender": {
+                  "example": "male"
+                },
+                "position": {
                   "example": "any"
                 },
-                "numberOfPages": {
-                  "example": "any"
+                "phone_number": {
+                  "example": "9876543210"
                 },
-                "designConsideration": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "frontendTechnology": {
-                  "example": "any"
-                },
-                "backendTechnology": {
-                  "example": "any"
-                },
-                "database": {
-                  "example": "any"
-                },
-                "thirdPartyIntegrations": {
-                  "example": "any"
-                },
-                "deploymentPlatform": {
-                  "example": "any"
+                "address": {
+                  "example": "Ghaziabad"
                 }
               }
             }
@@ -256,8 +331,263 @@
           "200": {
             "description": "OK"
           },
-          "401": {
-            "description": "Unauthorized"
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/project": {
+      "post": {
+        "tags": ["Projects"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "Ed-Tech"
+                },
+                "numberOfPages": {
+                  "example": "5"
+                },
+                "designConsideration": {
+                  "example": "yes"
+                },
+                "category": {
+                  "example": "educational"
+                },
+                "frontendTechnology": {
+                  "example": "nextjs"
+                },
+                "backendTechnology": {
+                  "example": "expressjs"
+                },
+                "database": {
+                  "example": "postgresql"
+                },
+                "thirdPartyIntegrations": {
+                  "example": ["emailIntegration", "paymentIntegration"]
+                },
+                "deploymentPlatform": {
+                  "example": "vercel"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Projects"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/project/{id}": {
+      "get": {
+        "tags": ["Projects"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Projects"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/project/user/{id}": {
+      "get": {
+        "tags": ["Projects"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/milestones/project/{id}": {
+      "get": {
+        "tags": ["Milestones"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/milestones/{id}/status": {
+      "patch": {
+        "tags": ["Milestones"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "example": "in_progress"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/cost/pricing": {
+      "get": {
+        "tags": ["Cost"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cost/calculate": {
+      "post": {
+        "tags": ["Cost"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "Ed-Tech"
+                },
+                "numberOfPages": {
+                  "example": "5"
+                },
+                "designConsideration": {
+                  "example": "yes"
+                },
+                "category": {
+                  "example": "educational"
+                },
+                "frontendTechnology": {
+                  "example": "nextjs"
+                },
+                "backendTechnology": {
+                  "example": "expressjs"
+                },
+                "database": {
+                  "example": "postgresql"
+                },
+                "thirdPartyIntegrations": {
+                  "example": ["emailIntegration", "paymentIntegration"]
+                },
+                "deploymentPlatform": {
+                  "example": "vercel"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

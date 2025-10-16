@@ -14,8 +14,17 @@ export type FrontendType =
   | "expo"
   | "reactNative"
   | "flutter";
+
 export type BackendType = "expressjs" | "springboot" | "django";
+
 export type DatabaseType = "postgresql" | "mongodb";
+
+export type IntegrationType =
+  | "emailIntegration"
+  | "paymentIntegration"
+  | "liveChat"
+  | "trackingIntegration";
+
 export type DeploymentType =
   | "vercel"
   | "digitalocean"
@@ -23,12 +32,7 @@ export type DeploymentType =
   | "netlify"
   | "googlePlayStore"
   | "appleAppStore"
-  | "expoAppService";
-export type IntegrationType =
-  | "emailIntegration"
-  | "paymentIntegration"
-  | "liveChat"
-  | "trackingIntegration";
+  | "expoAppService"; 
 
 export interface RequirementFormData {
   title?: string;
@@ -49,4 +53,14 @@ export interface CostBreakdown {
   deploymentCost: number;
   designPremium: number;
   total: number;
+}
+
+export interface milestoneType {
+  title: string;
+  description: string;
+  percentage: number;
+  amount: number;
+  is_paid: boolean;
+  status: "completed" | "in_progress" | "pending";
+  due_date: Date;
 }

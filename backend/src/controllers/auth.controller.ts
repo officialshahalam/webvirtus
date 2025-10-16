@@ -15,7 +15,7 @@ import jwt from "jsonwebtoken";
 import { AuthError, ValidationError } from "../packages/error-handler";
 import prisma from "../configs/prisma";
 
-export const userRegistration = async (
+export const registerUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -70,6 +70,12 @@ export const verifyUser = async (
         image: {
           create: avatar,
         },
+        profile: {
+          create: {
+            company_name: "",
+            address: "",
+          },
+        },
       },
     });
     res.status(201).json({
@@ -97,6 +103,7 @@ export const loginUser = async (
         image: true,
         profile: true,
         projects: {
+          orderBy: { createdAt: "desc" },
           include: {
             technologies: true,
             detail_cost: true,
@@ -119,7 +126,7 @@ export const loginUser = async (
     }
 
     const accessToken = await jwt.sign(
-      { id: user.id, role: "user" },
+      { id: user.id, role: user.role },
       process.env.ACCESS_TOKEN_SECRET as string,
       { expiresIn: "7d" }
     );
@@ -128,8 +135,8 @@ export const loginUser = async (
 
     res.status(200).json({
       success: true,
+      user,
       message: "User LogedIn Successfully",
-      user: user,
     });
   } catch (e) {
     return next(e);
@@ -161,7 +168,7 @@ export const logoutUser = async (
   }
 };
 
-export const userForgotPassword = async (
+export const forgotPasswordUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -188,7 +195,7 @@ export const userForgotPassword = async (
   }
 };
 
-export const verifyUserForgotPassword = async (
+export const verifyForgotPasswordUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -201,7 +208,7 @@ export const verifyUserForgotPassword = async (
   }
 };
 
-export const resetUserPassword = async (
+export const resetPasswordUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -232,6 +239,43 @@ export const resetUserPassword = async (
     return res.status(200).json({
       success: true,
       message: "Password reset Successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changePasswordUser = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const id = req.user.id;
+
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Incorrect old password" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await prisma.user.update({
+      where: { id },
+      data: { password: hashedPassword },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Password Change Successfully",
     });
   } catch (error) {
     next(error);

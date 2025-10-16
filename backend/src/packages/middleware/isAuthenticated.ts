@@ -1,6 +1,6 @@
 import type { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import prisma from "../../configs/prisma/index";
+import prisma from "../../configs/prisma";
 
 const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
   try {
@@ -23,17 +23,28 @@ const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {
     }
 
     const account = await prisma.user.findUnique({
-      where: { id: decoded.id },
+      where: { id: decoded?.id },
       include: {
         image: true,
         profile: true,
-        projects: true,
+        projects: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+          include: {
+            technologies: true,
+            detail_cost: true,
+            milestones: true,
+            feedback: true,
+          },
+        },
       },
     });
 
     if (!account) {
       return res.status(401).json({ message: "Account not found" });
     }
+
+    console.log("decodedrole", decoded.role);
 
     req.user = account;
     req.role = decoded.role;

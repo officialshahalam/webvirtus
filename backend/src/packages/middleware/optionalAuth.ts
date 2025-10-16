@@ -16,7 +16,7 @@ export const optionalAuth = async (
   const token =
     req.cookies["access_token"] || req.headers.authorization?.split(" ")[1];
 
-  if (!token) {
+  if (!token) { 
     return next();
   }
 

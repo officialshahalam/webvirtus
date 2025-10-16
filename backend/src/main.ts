@@ -3,11 +3,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import type { Request, Response } from "express";
-import swaggerUi from "swagger-ui-express";
 import { readFileSync } from "fs";
 import authRouter from "./routes/auth.routes";
 import costRouter from "./routes/cost.routes";
+import projectRouter from "./routes/project.routes";
+import milestonesRouter from "./routes/milestones.routes";
+import userRouter from "./routes/user.routes";
+import swaggerUi from "swagger-ui-express";
 import { errorMiddleware } from "./packages/error-handler/error-middleware";
+
 const swaggerDocument = JSON.parse(readFileSync("swagger-output.json", "utf8"));
 
 dotenv.config();
@@ -17,6 +21,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
+      "http://localhost:3001",
       "https://webvirtus.it.com",
     ],
     allowedHeaders: ["Authorization", "Content-Type"],
@@ -36,11 +41,15 @@ app.get("/docs-json", (_req, res) => {
 
 // Example route
 app.get("/", (_req: Request, res: Response) => {
-  res.status(200).send({ message: "Health of Growlance server is Good..." });
+  res.status(200).send({ message: "Health of webVirtus server is Good..." });
 });
 
-app.use("/auth/api", authRouter);
-app.use("/cost/api", costRouter);
+app.use("/", authRouter);
+app.use("/", costRouter);
+app.use("/", projectRouter);
+app.use("/", milestonesRouter);
+app.use("/", userRouter);
+
 app.use(errorMiddleware);
 
 const server = app.listen(PORT, () => {

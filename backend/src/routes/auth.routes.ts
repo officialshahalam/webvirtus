@@ -1,26 +1,28 @@
 import express, { Router } from "express";
 import {
+  changePasswordUser,
+  forgotPasswordUser,
   getUser,
   loginUser,
   logoutUser,
-  resetUserPassword,
-  userForgotPassword,
-  userRegistration,
+  registerUser,
+  resetPasswordUser,
+  verifyForgotPasswordUser,
   verifyUser,
-  verifyUserForgotPassword,
 } from "../controllers/auth.controller";
 import isAuthenticated from "../packages/middleware/isAuthenticated";
 import { isUser } from "../packages/middleware/authorizeRoles";
 
 const router: Router = express.Router();
 
-router.post("/registration-user", userRegistration);
-router.post("/verify-user", verifyUser);
-router.post("/login-user", loginUser);
-router.get("/logged-in-user", isAuthenticated, isUser, getUser);
-router.post("/logout-user", logoutUser);
-router.post("/forgot-password-user", userForgotPassword);
-router.post("/verify-forgot-password-user", verifyUserForgotPassword);
-router.post("/reset-password-user", resetUserPassword);
+router.post("/auth/registration-user", registerUser);
+router.post("/auth/verify-user", verifyUser);
+router.post("/auth/login-user", loginUser);
+router.get("/auth/logged-in-user", isAuthenticated, isUser, getUser);
+router.post("/auth/logout-user", logoutUser);
+router.post("/auth/forgot-password-user", forgotPasswordUser);
+router.post("/auth/verify-forgot-password-user", verifyForgotPasswordUser);
+router.post("/auth/reset-password-user", resetPasswordUser);
+router.post("/auth/change-password-user", isAuthenticated, changePasswordUser);
 
 export default router;
