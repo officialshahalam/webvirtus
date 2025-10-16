@@ -23,6 +23,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://webvirtus.it.com",
+      "https://api.webvirtus.it.com"
     ],
     allowedHeaders: ["Authorization", "Content-Type"],
     credentials: true,
