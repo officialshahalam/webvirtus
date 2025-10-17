@@ -6,7 +6,7 @@ import { sendEmail } from "./sendMail";
 import { ValidationError } from "../error-handler";
 import redis from "../../configs/radis";
 
-export const setCookie = (name: string, value: string, res: any) => {
+export const cookieSet = (name: string, value: string, res: any) => {
   const isProd = process.env.NODE_ENV === "production";
 
   res.cookie(name, value, {
@@ -16,6 +16,17 @@ export const setCookie = (name: string, value: string, res: any) => {
     domain: isProd ? "webvirtus.it.com" : undefined,
     path: "/",
     maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+};
+
+export const cookieClear = (name: string, res: any) => {
+  const isProd = process.env.NODE_ENV === "production";
+  res.clearCookie(name, {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+    domain: isProd ? "webvirtus.it.com" : undefined,
+    path: "/",
   });
 };
 

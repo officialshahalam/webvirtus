@@ -5,11 +5,12 @@ import bcrypt from "bcryptjs";
 import {
   verifyOtp,
   sendOtp,
-  setCookie,
+  cookieSet,
   traceOtpRequests,
   validateRegistrationData,
   verifyForgotPasswordOtp,
   checkOtpRestrictions,
+  cookieClear,
 } from "../packages/utils/auth.hepler";
 import jwt from "jsonwebtoken";
 import { AuthError, ValidationError } from "../packages/error-handler";
@@ -131,7 +132,7 @@ export const loginUser = async (
       { expiresIn: "7d" }
     );
 
-    setCookie("access_token", accessToken, res);
+    cookieSet("access_token", accessToken, res);
 
     res.status(200).json({
       success: true,
@@ -161,16 +162,7 @@ export const logoutUser = async (
   next: NextFunction
 ) => {
   try {
-    const isProd = process.env.NODE_ENV === "production";
-
-    res.clearCookie("access_token", {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? "none" : "lax",
-      domain: isProd ? "webvirtus.it.com" : undefined,
-      path: "/",
-    });
-
+    cookieClear("access_token", res);
     return res
       .status(200)
       .json({ success: true, message: "Logged out successfully" });
