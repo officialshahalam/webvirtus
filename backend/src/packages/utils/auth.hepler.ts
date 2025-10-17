@@ -13,9 +13,9 @@ export const setCookie = (name: string, value: string, res: any) => {
     httpOnly: true,
     secure: isProd,
     sameSite: isProd ? "none" : "lax",
-    domain: isProd ? ".webvirtus.it.com" : undefined,
+    domain: isProd ? "webvirtus.it.com" : undefined,
     path: "/",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };
 

@@ -18,7 +18,6 @@ import {
   Settings,
   User,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Page = () => {
@@ -33,7 +32,6 @@ const Page = () => {
     totalSpent: "$1,700",
   };
 
-  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const { clearUser } = useUserStore();
@@ -51,7 +49,7 @@ const Page = () => {
       clearProject();
       clearDummyProject();
       clearRequirement();
-      router.push("/login");
+      window.location.reload();
     },
     onError: (error: AxiosError) => {
       console.error("Logout error:", error);

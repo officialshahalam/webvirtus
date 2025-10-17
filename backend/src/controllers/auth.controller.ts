@@ -156,13 +156,24 @@ export const getUser = async (req: any, res: Response, next: NextFunction) => {
 };
 
 export const logoutUser = async (
-  _req: any,
+  _req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.clearCookie("access_token");
-    return res.json({ success: true, message: "Logged out successfully" });
+    const isProd = process.env.NODE_ENV === "production";
+
+    res.clearCookie("access_token", {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      domain: isProd ? "webvirtus.it.com" : undefined,
+      path: "/",
+    });
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     return next(error);
   }
