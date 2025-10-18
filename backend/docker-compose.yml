@@ -1,0 +1,57 @@
+services:
+  webvirtus-app:
+    image: aalam855/webvirtus:latest
+    container_name: webvirtus
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    depends_on:
+      - kafka
+      - redis
+    networks:
+      - webvirtus-network
+    restart: unless-stopped
+
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redisStack-con
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    networks:
+      - webvirtus-network
+    restart: unless-stopped
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - webvirtus-network
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - webvirtus-network
+    restart: unless-stopped
+
+networks:
+  webvirtus-network:
+    driver: bridge
