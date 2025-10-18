@@ -1,6 +1,6 @@
 "use client";
 import DashboardHeader from "@/shared/custom-components/DashboardHeader";
-import { usedummyProjectStore } from "@/stores/dummyProjectStore";
+import { useDummyProjectStore } from "@/stores/dummyProjectStore";
 import { useProjectStore } from "@/stores/projectStore";
 import { useRequirementStore } from "@/stores/useRequirementStore";
 import { useUserStore } from "@/stores/userStore";
@@ -37,7 +37,7 @@ const Page = () => {
   const { clearUser } = useUserStore();
   const { clearProject } = useProjectStore();
   const { clearRequirement } = useRequirementStore();
-  const { clearDummyProject } = usedummyProjectStore();
+  const { clearDummyProject } = useDummyProjectStore();
 
   const logoutMutation = useMutation({
     mutationFn: async () => {

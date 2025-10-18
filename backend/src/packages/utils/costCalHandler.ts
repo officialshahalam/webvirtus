@@ -7,7 +7,7 @@ import type {
   RequirementFormData,
 } from "../../types/index";
 import { PRICING_CONFIG, TIME_CONFIG } from "../constants/index";
-import { ValidationError } from "../error-handler/index";
+import { ValidationError } from "../error-handler/index"; 
 
 export const validateRequirements = (requirements: RequirementFormData) => {
   if (!requirements.numberOfPages || requirements.numberOfPages < 1) {
@@ -277,7 +277,7 @@ export const generateCostExplanation = (requirements: RequirementFormData) => {
     data.integrations = [{ name: "No Integration", cost: 0 }];
   }
 
-  // Deployment
+  // Deployment 
   data.deployment = {
     name: "Deployment",
     platform: requirements.deploymentPlatform || "none",

@@ -32,7 +32,7 @@ export type DeploymentType =
   | "netlify"
   | "googlePlayStore"
   | "appleAppStore"
-  | "expoAppService"; 
+  | "expoAppService";
 
 export interface RequirementFormData {
   title?: string;
@@ -55,7 +55,7 @@ export interface CostBreakdown {
   total: number;
 }
 
-export interface milestoneType {
+export interface MilestoneType {
   title: string;
   description: string;
   percentage: number;
@@ -63,4 +63,10 @@ export interface milestoneType {
   is_paid: boolean;
   status: "completed" | "in_progress" | "pending";
   due_date: Date;
+}
+
+export interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
 }

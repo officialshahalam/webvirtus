@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import { isAdmin } from "../packages/middleware/authorizeRoles";
 import {
+  contactUsController,
   deleteUser,
   getAllUsers,
   getUserDetails,
@@ -14,5 +15,6 @@ router.get("/user", isAuthenticated, isAdmin, getAllUsers);
 router.get("/user/:id", getUserDetails);
 router.patch("/user/:id", updateUserAndProfile);
 router.delete("/user/:id", deleteUser);
+router.post("/user/contact", contactUsController);
 
 export default router;

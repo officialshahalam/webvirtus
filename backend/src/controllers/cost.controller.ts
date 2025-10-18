@@ -6,7 +6,7 @@ import {
   validateRequirements,
 } from "../packages/utils/costCalHandler";
 import { PRICING_CONFIG } from "../packages/constants/index";
-import { RequirementFormData, milestoneType } from "../types";
+import { RequirementFormData, MilestoneType } from "../types";
 
 export const getPricingInfo = async (
   _req: Request,
@@ -43,65 +43,61 @@ export const calculateCostAndTime = async (
     const total_cost = calculateTotalCost(requirements);
     const total_time = calculateTotalTime(requirements);
     const detail_cost = generateCostExplanation(requirements);
-    const now = new Date();
-    let cumulativeHours = 0;
-    const milestones: milestoneType[] = [
+
+    const milestoneData = [
       {
         title: "Discovery & Planning",
         description: "Requirements analysis, wireframes, project scope",
-        percentage: 10,
-        amount: total_cost * 0.1,
-        is_paid: false,
-        status: "in_progress",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += total_time * 0.1) * 60 * 60 * 1000
-        ),
+        percentage: 0.1,
       },
       {
         title: "Design & Prototyping",
         description: "UI/UX design, mockups, design system",
-        percentage: 10,
-        amount: total_cost * 0.1,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += total_time * 0.1) * 60 * 60 * 1000
-        ),
+        percentage: 0.2,
       },
       {
         title: "Development & Integrations",
         description: "Frontend & backend development, integrations",
-        percentage: 50,
-        amount: total_cost * 0.5,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += total_time * 0.5) * 60 * 60 * 1000
-        ),
+        percentage: 0.4,
       },
       {
         title: "Testing",
         description: "Quality assurance and training",
-        percentage: 20,
-        amount: total_cost * 0.2,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += total_time * 0.2) * 60 * 60 * 1000
-        ),
+        percentage: 0.2,
       },
       {
         title: "Deployment and delivery",
         description: "Deploy the project for the production",
-        percentage: 10,
-        amount: total_cost * 0.1,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += total_time * 0.1) * 60 * 60 * 1000
-        ),
+        percentage: 0.1,
       },
     ];
+
+    const adjustedTime = (total_time * 24) / 8;
+    const now = new Date();
+
+    let cumulativeHours = 0;
+
+    const milestoneTemplates: MilestoneType[] = milestoneData.map(
+      (milestone) => {
+        const dueDate = new Date(
+          now.getTime() + cumulativeHours * 60 * 60 * 1000
+        );
+        cumulativeHours += adjustedTime * milestone.percentage;
+
+        return {
+          title: milestone.title,
+          description: milestone.description,
+          percentage: milestone.percentage * 100,
+          amount: total_cost * milestone.percentage,
+          is_paid: false,
+          status:
+            milestone.title === "Discovery & Planning"
+              ? "in_progress"
+              : "pending",
+          due_date: dueDate,
+        };
+      }
+    );
 
     return res.status(200).json({
       success: true,
@@ -110,7 +106,7 @@ export const calculateCostAndTime = async (
         total_cost,
         total_time,
         detail_cost,
-        milestones,
+        milestones: milestoneTemplates,
       },
       message: "Project Cost Calculate successfully.",
     });

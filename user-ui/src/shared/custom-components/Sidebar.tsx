@@ -203,7 +203,7 @@ const TitleSection = ({ open }: { open: boolean }) => {
       <div className="flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800">
         <div className="flex items-center gap-3">
           <Image
-            src={"/images/webVirtusIconC.svg"}
+            src={"/images/webVirtusIcon.png"}
             width={36}
             height={36}
             alt="logo"
@@ -240,7 +240,7 @@ const MobileTitleSection = () => {
     <Link href={"/"} className="mb-6 border-b border-blue-100/30 pb-4">
       <div className="flex cursor-pointer items-center gap-3 rounded-md p-2 transition-colors hover:bg-blue-100/20">
         <Image
-          src={"/images/webVirtusIconC.svg"}
+          src={"/images/webVirtusIcon.png"}
           width={36}
           height={36}
           alt="logo"

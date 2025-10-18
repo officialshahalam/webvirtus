@@ -5,7 +5,7 @@ const DetailCost = ({
   detailCost,
   totalCost,
 }: {
-  detailCost: DetailCostType;
+  detailCost: DetailCostType; 
   totalCost: number;
 }) => {
   return (

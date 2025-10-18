@@ -27,7 +27,7 @@ export function AnimeNavBar({ items, defaultActive }: NavBarProps) {
   const [mounted, setMounted] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>(defaultActive!);
-  const [_isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useUserStore();
 
@@ -77,9 +77,9 @@ export function AnimeNavBar({ items, defaultActive }: NavBarProps) {
   return (
     <>
       <div className="fixed top-2 left-0 right-0 z-[9999]">
-        <div className="flex justify-center pt-6">
+        <div className="flex justify-center pt-2 md:pt-8">
           <motion.div
-            className="w-11/12 flex items-center justify-between gap-3 bg-blue/30 border border-white/10 backdrop-blur-lg py-4 px-6 md:px-10 rounded-full shadow-lg relative"
+            className="w-11/12 flex items-center justify-between gap-3 bg-blue/30 border border-white/10 backdrop-blur-lg py-1 md:py-4 px-6 md:px-10 rounded-2xl md:rounded-full shadow-lg relative"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
@@ -95,10 +95,10 @@ export function AnimeNavBar({ items, defaultActive }: NavBarProps) {
               }}
             >
               <Image
-                src="/images/webVirtusLogo.svg"
-                alt="logo"
-                width={120}
-                height={30}
+                src="/images/webVirtusLogoWithoutBg.png"
+                alt="logo" 
+                width={isMobile ? 70 : 100}
+                height={isMobile ? 20 : 30}
               />
             </Link>
 
@@ -430,7 +430,7 @@ export function AnimeNavBar({ items, defaultActive }: NavBarProps) {
                 stiffness: 300,
                 damping: 30,
               }}
-              className="mobile-menu-container fixed top-0 right-0 h-full w-80 bg-blue/40 border-l border-white/10 backdrop-blur-xl z-[9999] md:hidden"
+              className="mobile-menu-container fixed top-0 right-0 h-full w-9/12 bg-blue/40 border-l border-white/10 backdrop-blur-xl z-[9999] md:hidden"
             >
               <div className="flex flex-col p-6">
                 {/* Navigation Items */}

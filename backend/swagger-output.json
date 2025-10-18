@@ -5,7 +5,6 @@
     "description": "Automatically generated Swagger docs",
     "version": "1.0.0"
   },
-
   "host": "api.webvirtus.it.com",
   "schemes": ["https"],
   "basePath": "/",
@@ -354,6 +353,37 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/user/contact": {
+      "post": {
+        "tags": ["Users"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "Mohd Shahalam"
+                },
+                "email": {
+                  "example": "ansarishahalam855@gmail.com"
+                },
+                "message": {
+                  "example": "Enter your Query..."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

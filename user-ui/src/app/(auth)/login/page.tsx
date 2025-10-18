@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useProjectStore } from "@/stores/projectStore";
 import { useRequirementStore } from "@/stores/useRequirementStore";
-import { usedummyProjectStore } from "@/stores/dummyProjectStore";
+import { useDummyProjectStore } from "@/stores/dummyProjectStore";
 
 interface OrbitIcon {
   component: () => ReactNode;
@@ -185,13 +185,13 @@ const Page = () => {
   const { setUser } = useUserStore();
   const { setProject } = useProjectStore();
   const { clearRequirement } = useRequirementStore();
-  const { clearDummyProject } = usedummyProjectStore();
+  const { clearDummyProject } = useDummyProjectStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-
+ 
   const loginMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axiosInstance.post("/auth/login-user", data);

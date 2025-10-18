@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { milestoneType, RequirementFormData } from "../types";
+import { MilestoneType, RequirementFormData } from "../types";
 import {
   calculateTotalCost,
   calculateTotalTime,
@@ -17,75 +17,71 @@ export const createProject = async (
     const requirements: RequirementFormData = req.body;
     const userId = (req as any).user?.id || null;
     validateRequirements(requirements);
-    const totalCost = calculateTotalCost(requirements);
-    const totalTime = calculateTotalTime(requirements);
-    const detailCost = generateCostExplanation(requirements);
-    const now = new Date();
-    let cumulativeHours = 0;
-    const milestoneTemplates: milestoneType[] = [
+    const total_cost = calculateTotalCost(requirements);
+    const total_time = calculateTotalTime(requirements);
+    const detail_cost = generateCostExplanation(requirements);
+
+    const milestoneData = [
       {
         title: "Discovery & Planning",
         description: "Requirements analysis, wireframes, project scope",
-        percentage: 10,
-        amount: totalCost * 0.1,
-        is_paid: false,
-        status: "in_progress",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += totalTime * 0.1) * 60 * 60 * 1000
-        ),
+        percentage: 0.1,
       },
       {
         title: "Design & Prototyping",
         description: "UI/UX design, mockups, design system",
-        percentage: 20,
-        amount: totalCost * 0.2,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += totalTime * 0.2) * 60 * 60 * 1000
-        ),
+        percentage: 0.2,
       },
       {
         title: "Development & Integrations",
         description: "Frontend & backend development, integrations",
-        percentage: 40,
-        amount: totalCost * 0.4,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += totalTime * 0.4) * 60 * 60 * 1000
-        ),
+        percentage: 0.4,
       },
       {
         title: "Testing",
         description: "Quality assurance and training",
-        percentage: 20,
-        amount: totalCost * 0.2,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += totalTime * 0.2) * 60 * 60 * 1000
-        ),
+        percentage: 0.2,
       },
       {
         title: "Deployment and delivery",
         description: "Deploy the project for the production",
-        percentage: 10,
-        amount: totalCost * 0.1,
-        is_paid: false,
-        status: "pending",
-        due_date: new Date(
-          now.getTime() + (cumulativeHours += totalTime * 0.1) * 60 * 60 * 1000
-        ),
+        percentage: 0.1,
       },
     ];
+
+    const adjustedTime = (total_time * 24) / 8;
+    const now = new Date();
+
+    let cumulativeHours = 0;
+
+    const milestoneTemplates: MilestoneType[] = milestoneData.map(
+      (milestone) => {
+        const dueDate = new Date(
+          now.getTime() + cumulativeHours * 60 * 60 * 1000
+        );
+        cumulativeHours += adjustedTime * milestone.percentage;
+
+        return {
+          title: milestone.title,
+          description: milestone.description,
+          percentage: milestone.percentage * 100,
+          amount: total_cost * milestone.percentage,
+          is_paid: false,
+          status:
+            milestone.title === "Discovery & Planning"
+              ? "in_progress"
+              : "pending",
+          due_date: dueDate,
+        };
+      }
+    );
 
     const nextDeadline = milestoneTemplates[0].due_date;
 
     const estimated_completion =
       milestoneTemplates[milestoneTemplates.length - 1].due_date;
 
-    const project = await prisma.project.create({ 
+    const project = await prisma.project.create({
       data: {
         title: requirements.title,
         no_of_page: Number(requirements.numberOfPages),
@@ -101,13 +97,13 @@ export const createProject = async (
           },
         },
         next_deadline: nextDeadline,
-        total_cost: totalCost,
+        total_cost: total_cost,
         detail_cost: {
           create: {
-            ...detailCost,
+            ...detail_cost,
           },
         },
-        total_time: totalTime,
+        total_time: total_time,
         milestones: {
           create: milestoneTemplates,
         },

@@ -75,7 +75,7 @@ interface dummyProjectStore {
   clearDummyProject: () => void;
 }
 
-export const usedummyProjectStore = create<dummyProjectStore>()(
+export const useDummyProjectStore = create<dummyProjectStore>()(
   persist(
     (set) => ({
       dummyProject: null,

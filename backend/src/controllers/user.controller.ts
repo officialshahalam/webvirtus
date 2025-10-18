@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../configs/prisma";
+import { ContactFormData } from "../types";
+import { sendEmail } from "../packages/utils/sendMail";
+import { ValidationError } from "../packages/error-handler";
 
 export const getAllUsers = async (
   _req: Request,
@@ -233,6 +236,39 @@ export const deleteUser = async (
     });
   } catch (error) {
     console.error("Delete User Error:", error);
+    return next(error);
+  }
+};
+
+export const contactUsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { name, email, message }: ContactFormData = req.body;
+    if (!name || !email || !message) {
+      return next(new ValidationError("Missing Fields"));
+    }
+
+    sendEmail(
+      process.env.ADMIN_EMAIL!,
+      `New Contact Message from ${name}`,
+      "contact-admin",
+      { name, email, message }
+    );
+
+    sendEmail(email, "Thank you for contacting WebVirtus", "contact-user", {
+      name,
+      message,
+    });
+
+    // respond immediately
+    res.status(200).json({
+      success: true,
+      message: "Message sent successfully. We'll get back to you soon.",
+    });
+  } catch (error) {
     return next(error);
   }
 };

@@ -37,7 +37,7 @@ export const sendEmail = async (
   to: string,
   subject: string,
   templateName: string,
-  data: Record<string, any>
+  data: Record<string, any> 
 ) => {
   try {
     const html = await renderEmailTemplete(templateName, data);

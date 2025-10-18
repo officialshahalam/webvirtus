@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { features } from "@/constants";
 import BookNow from "@/shared/custom-components/BookNow";
 import OurTechstack from "@/shared/custom-components/OurTechstack";
+import Link from "next/link";
 
 const Page = () => {
   return (
@@ -24,15 +24,21 @@ const Page = () => {
               long-term success.
             </p>
             <div className="flex flex-col sm:flex-row gap-2 md:gap-3 lg:gap-4 items-stretch md:items-center w-full md:w-auto">
-              <Button className="text-xs md:text-sm px-4 md:px-6 lg:px-8 py-2.5 md:py-3 rounded-xl bg-white text-black border border-white/10 shadow-none hover:bg-white/90 transition-none w-full md:w-auto">
+              <Link
+                href={"/cost-analysis"}
+                className="text-xs md:text-sm px-4 md:px-6 lg:px-8 py-2.5 md:py-3 rounded-xl bg-white text-black border border-white/10 shadow-none hover:bg-white/90 transition-none w-full md:w-auto max-md:text-center"
+              >
                 Get Started
-              </Button>
-              <Button className="text-xs md:text-sm px-4 md:px-6 lg:px-8 py-2.5 md:py-3 rounded-xl bg-transparent text-white border border-white/20 shadow-none hover:bg-white/10 transition-none w-full md:w-auto">
+              </Link>
+              <Link
+                href={"/about"}
+                className="text-xs md:text-sm px-4 md:px-6 lg:px-8 py-2.5 md:py-3 rounded-xl bg-transparent text-white border border-white/20 shadow-none hover:bg-white/10 transition-none w-full md:w-auto max-md:text-center"
+              >
                 Learn More
-              </Button>
+              </Link>
             </div>
           </div>
-          
+
           {/* right */}
           <div className="w-full lg:w-[45%] flex flex-wrap items-center justify-center mt-6 md:mt-8 lg:mt-0">
             <div className="flex w-full h-auto flex-wrap items-center justify-center gap-1.5 md:gap-2 lg:gap-3">
@@ -71,14 +77,16 @@ const Page = () => {
                   "
                 >
                   <Icon className="w-5 h-5 md:w-6 md:h-6 lg:w-10 lg:h-10" />
-                  <p className="text-[10px] md:text-xs lg:text-base text-center leading-tight">{title}</p>
+                  <p className="text-[10px] md:text-xs lg:text-base text-center leading-tight">
+                    {title}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </section>
-      
+
       <section className="w-11/12 mx-auto mt-8 md:mt-12 lg:mt-20 mb-6 md:mb-8 lg:mb-10">
         <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-4 md:mb-6 lg:mb-8 text-white">
           Why WebVirtus?
@@ -116,11 +124,11 @@ const Page = () => {
                 lg:min-h-[280px]
               "
             >
-              <Icon 
-                width={32} 
-                height={32} 
-                className="md:w-12 md:h-12 lg:w-20 lg:h-20" 
-                stroke="#002432" 
+              <Icon
+                width={32}
+                height={32}
+                className="md:w-12 md:h-12 lg:w-20 lg:h-20"
+                stroke="#002432"
               />
               <h2 className="w-full text-center text-white text-sm md:text-lg lg:text-2xl font-semibold">
                 {title}
@@ -132,7 +140,7 @@ const Page = () => {
           ))}
         </div>
       </section>
-      
+
       <OurTechstack />
       <BookNow />
     </main>

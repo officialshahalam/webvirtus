@@ -1,5 +1,6 @@
-import { Project, useProjectStore } from "@/stores/projectStore";
-import { useUserStore } from "@/stores/userStore";
+import { useDummyProjectStore } from "@/stores/dummyProjectStore";
+import { Project } from "@/stores/projectStore";
+import { useRequirementStore } from "@/stores/useRequirementStore";
 import { RequirementFormData } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
@@ -12,13 +13,17 @@ const MobileRequirementForm = ({
 }: {
   setStep: React.Dispatch<React.SetStateAction<"requirement" | "cost">>;
 }) => {
-  const { user } = useUserStore();
-  const { setProject } = useProjectStore();
+  const { setRequirement } = useRequirementStore();
+  const { setDummyProject } = useDummyProjectStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RequirementFormData>();
+  } = useForm<RequirementFormData>({
+    defaultValues: {
+      thirdPartyIntegrations: [],
+    },
+  });
 
   const costMutation = useMutation({
     mutationFn: async (data: RequirementFormData) => {
@@ -27,26 +32,7 @@ const MobileRequirementForm = ({
     },
     onSuccess: (data) => {
       const project: Project = data.project;
-      setProject(project);
-      setStep("cost");
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    },
-    onError: (error: AxiosError) => {
-      console.log("error", error);
-    }, 
-  });
-
-  const projectCreateMutation = useMutation({
-    mutationFn: async (data: RequirementFormData) => {
-      const response = await axiosInstance.post("/project", data);
-      return response.data;
-    },
-    onSuccess: (data) => {
-      console.log("data", data);
-      const project: Project = data.project;
-      setProject(project);
+      setDummyProject(project);
       setStep("cost");
       requestAnimationFrame(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -58,11 +44,8 @@ const MobileRequirementForm = ({
   });
 
   const onSubmit = async (data: RequirementFormData) => {
-    if (user) {
-      await projectCreateMutation.mutate(data!);
-    } else {
-      await costMutation.mutate(data!);
-    }
+    setRequirement(data);
+    await costMutation.mutate(data!);
   };
 
   return (

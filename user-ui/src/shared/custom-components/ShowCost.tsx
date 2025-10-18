@@ -1,6 +1,6 @@
 "use client";
 
-import { usedummyProjectStore } from "@/stores/dummyProjectStore";
+import { useDummyProjectStore } from "@/stores/dummyProjectStore";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -10,8 +10,8 @@ const ShowCost = ({
   setStep: React.Dispatch<React.SetStateAction<"requirement" | "cost">>;
 }) => {
   const router = useRouter();
-  const total_cost = usedummyProjectStore((state) => state.dummyProject?.total_cost ?? 0);
-  const total_time = usedummyProjectStore((state) => state.dummyProject?.total_time ?? 0);
+  const total_cost = useDummyProjectStore((state) => state.dummyProject?.total_cost ?? 0);
+  const total_time = useDummyProjectStore((state) => state.dummyProject?.total_time ?? 0);
 
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8 lg:gap-10 mt-4 md:mt-5 lg:mt-6 px-4 md:px-6 lg:px-8">

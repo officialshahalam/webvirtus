@@ -6,15 +6,15 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { usedummyProjectStore } from "@/stores/dummyProjectStore";
+import { useDummyProjectStore } from "@/stores/dummyProjectStore"; 
 
 const WebRequirementForm = ({
-  setStep,
+  setStep, 
 }: {
   setStep: React.Dispatch<React.SetStateAction<"requirement" | "cost">>;
 }) => {
   const { setRequirement } = useRequirementStore();
-  const { setDummyProject } = usedummyProjectStore();
+  const { setDummyProject } = useDummyProjectStore();
   const {
     register,
     handleSubmit,

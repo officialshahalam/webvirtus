@@ -1,5 +1,6 @@
 "use client";
 import { mobileTechStack, webTechStack } from "@/constants";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const OurTechstack = () => {
@@ -257,6 +258,15 @@ const OurTechstack = () => {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="w-full mt-10 text-center md:text-start">
+        <Link
+          href={"/cost-analysis"}
+          className="bg-white text-blue-500 px-20 py-2 rounded-lg hover:bg-white/90 w-[400px]"
+        >
+          Get Started
+        </Link>
       </div>
     </section>
   );
